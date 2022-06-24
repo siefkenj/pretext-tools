@@ -20,7 +20,8 @@
         "onCommand:pretext-tools.newBook",
         "onCommand:pretext-tools.newArticle",
         "onCommand:pretext-tools.view",
-        "onCommand:pretext-tools.viewWatch"
+        "onCommand:pretext-tools.viewWatch",
+        "onCommand:pretext-tools.test"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -96,28 +97,43 @@
                 "command": "pretext-tools.viewWatch",
                 "title": "View HTML and watch",
                 "category": "PreTeXt Tools"
+            },
+            {
+                "command": "pretext-tools.test",
+                "title": "Run a testing command",
+                "category": "PreTeXt Tools"
             }
         ]
     },
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
+        "vscode:prepublish": "npm run esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./",
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
-        "@types/vscode": "^1.68.0",
         "@types/glob": "^7.2.0",
         "@types/mocha": "^9.1.1",
         "@types/node": "16.x",
+        "@types/vscode": "^1.68.0",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
+        "esbuild": "^0.14.47",
         "eslint": "^8.16.0",
         "glob": "^8.0.3",
         "mocha": "^10.0.0",
+        "prettier": "^2.7.1",
         "typescript": "^4.7.2",
         "vscode-test": "^1.5.2"
+    },
+    "prettier": {
+        "tabWidth": 4
+    },
+    "dependencies": {
+        "unified": "^10.1.2"
     }
 }

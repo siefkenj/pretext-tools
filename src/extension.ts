@@ -3,8 +3,7 @@
 import * as vscode from 'vscode';
 import { spawn } from 'child_process';
 import * as path from 'path';
-
-
+import { unified } from 'unified';
 
 var pretextOutputChannel = vscode.window.createOutputChannel('PreTeXt Tools');
 
@@ -207,6 +206,12 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('pretext-tools.newArticle', () => {
 			var ptxCommand = "python -m pretext new article";
 			runPretext(ptxCommand);
+		})
+	);
+	
+	context.subscriptions.push(
+		vscode.commands.registerCommand('pretext-tools.test', () => {
+			console.log("hi there!!", unified);
 		})
 	);
 }
